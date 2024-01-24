@@ -1,0 +1,42 @@
+1. react-toastify: 
+react-toastify is a popular library for displaying toast notifications in React applications. Toast notifications are small, non-intrusive pop-up messages that provide feedback to users after a certain action or event occurs. They are often used to show success messages, error messages, or other information in a visually appealing and temporary manner.
+eg> 
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+  
+  function App(){
+    const notify = () => toast("Wow so easy!");
+
+    return (
+      <div>
+        <button onClick={notify}>Notify!</button>
+        <ToastContainer />
+      </div>
+    );
+  }
+
+
+
+
+2. jwt-decode: 
+-> jwt-decode is a library used for decoding JSON Web Tokens (JWT) in JavaScript. 
+-> This library doesn't validate the token, any well-formed JWT can be decoded. You should validate the token in your server-side logic.
+-> Here's where jwt-decode becomes useful:
+
+Decoding JWT on the Client Side: Since JWTs are typically sent to the client after authentication, the client may need to extract information from the token, such as user details or permissions. jwt-decode helps with this by providing a simple way to decode the token and access its payload (claims).
+Displaying User Information: After decoding the JWT, you can use the information it contains to personalize the user interface, such as displaying the user's name, role, or other relevant details.
+
+Keep in mind that while jwt-decode can decode the token on the client side, the actual verification of the token's authenticity and integrity should be done on the server side. The server should validate the signature of the token to ensure that it hasn't been tampered with.
+
+eg> 
+import jwtDecode from "jwt-decode";
+// Assuming you have a JWT stored in localStorage
+const token = localStorage.getItem("authToken");
+// Decode the token
+const decodedToken = jwtDecode(token);
+// Access the decoded information
+console.log(decodedToken);
+
+
+
+

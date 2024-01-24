@@ -1,0 +1,8 @@
+<main>: 
+
+The <main> element in HTML is a semantic HTML5 element that represents the 'main content of a document'. 
+It is typically used to enclose the 'central content' of a web page, 'excluding headers, footers, and sidebars'. 
+The <main> element is useful for providing more semantic and structural information about the organization of a webpage.
+
+
+

@@ -1,14 +1,9 @@
-import React, { useState } from 'react'
-import { ToastContainer } from 'react-toastify'
-
 const App = () => {
-  const [user, setUser] = useState(null);
-  
   return (
     <>
-      <ToastContainer/>
+      <h1>Hello Vidly</h1>
     </>
   )
 }
 
-export default App
+export default App;

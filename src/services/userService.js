@@ -3,8 +3,8 @@ import { apiUrl } from "../config/config.json";
 
 const apiEndpoint = apiUrl + "/users/register";
 
-function register(user) {
-  return http.post(apiEndpoint, {
+async function register(user) {
+  return await http.post(apiEndpoint, {
     name: user.name,
     email: user.email,
     password: user.password,

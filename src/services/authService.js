@@ -1,8 +1,8 @@
-import * as jwtDecode from "jwt-decode";
-import http from "./httpService";  // http is object
+import { jwtDecode } from "jwt-decode";
+import http from "./httpService"; // http is object
 import { apiUrl } from "../config/config.json";
 
-const apiEndpoint = apiUrl + "/login";
+const apiEndpoint = apiUrl + "/users/login";
 const tokenKey = "token";
 
 http.setJwt(getJwt());
@@ -23,6 +23,7 @@ export function logout() {
 export function getCurrentUser() {
   try {
     const jwt = localStorage.getItem(tokenKey);
+    console.log(jwtDecode(jwt));
     return jwtDecode(jwt);
   } catch (ex) {
     return null;
@@ -38,5 +39,5 @@ export default {
   loginWithJwt,
   logout,
   getCurrentUser,
-  getJwt
+  getJwt,
 };

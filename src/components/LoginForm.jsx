@@ -45,7 +45,7 @@ const LoginForm = () => {
   const onSubmit = async (data) => {
     try {
       await auth.login(data.email, data.password);
-      navigate("/");
+      window.location = "/movies";
     } catch (err) {
       if (err.response && err.response.status === 400) {
         // Handle specific login error (e.g., invalid email or password)

@@ -1,9 +1,13 @@
-import React from 'react'
+import { useEffect } from "react";
+import auth from "../services/authService";
 
 const LogoutForm = () => {
-  return (
-    <div>LogoutForm</div>
-  )
-}
+  useEffect(() => {
+    auth.logout();
+    window.location = "/";
+  }, []);
 
-export default LogoutForm
+  return null;
+};
+
+export default LogoutForm;

@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import "font-awesome/css/font-awesome.css";
+import auth from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   email: z
@@ -30,16 +33,37 @@ const schema = z.object({
     }),
 });
 
-const RegisterForm = () => {
+const LoginForm = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await auth.login(data.email, data.password);
+      navigate("/");
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        // Handle specific login error (e.g., invalid email or password)
+        console.log("Invalid email or password");
+      } else {
+        // Handle other types of errors (e.g., network issues)
+        console.log("An error occurred while logging in");
+      }
+    }
   };
+  // const onSubmit = async (data) => {
+  //   try {
+  //     await auth.login(data.email, data.password);
+  //     navigate("/");
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // };
 
   return (
     <>
@@ -82,4 +106,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

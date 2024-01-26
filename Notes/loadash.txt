@@ -1,0 +1,31 @@
+1. orderBy: 
+-> The orderBy function in lodash is used to sort an array of objects based on one or more properties of those objects.
+
+const _ = require('lodash');
+
+const data = [
+  { name: 'John', age: 30 },
+  { name: 'Alice', age: 25 },
+  { name: 'Bob', age: 35 },
+];
+
+// Sorting by name in ascending order
+const sortedByNameAsc = _.orderBy(data, ['name']);
+console.log(sortedByNameAsc);
+// Output: [ { name: 'Alice', age: 25 }, { name: 'Bob', age: 35 }, { name: 'John', age: 30 } ]
+
+// Sorting by age in descending order
+const sortedByAgeDesc = _.orderBy(data, ['age'], ['desc']);
+console.log(sortedByAgeDesc);
+// Output: [ { name: 'Bob', age: 35 }, { name: 'John', age: 30 }, { name: 'Alice', age: 25 } ]
+
+// Sorting by both name (ascending) and age (descending)
+const sortedByNameAndAge = _.orderBy(data, ['name', 'age'], ['asc', 'desc']);
+console.log(sortedByNameAndAge);
+/* Output:
+[
+  { name: 'Alice', age: 25 },
+  { name: 'Bob', age: 35 },
+  { name: 'John', age: 30 }
+]
+*/

@@ -8,8 +8,8 @@ function genreUrl(id) {
 }
 
 // Get All Genres
-export function getGenres(){
-  return http.get(apiEndpoint);
+export async function getGenres(){
+  return await http.get(apiEndpoint);
 }
 
 // Get Single Movie

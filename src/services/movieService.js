@@ -8,8 +8,8 @@ function movieUrl(id) {
 }
 
 // Get All Movies
-export function getMovies() {
-  return http.get(apiEndpoint);
+export async function getMovies() {
+  return await http.get(apiEndpoint);
 }
 
 // Get Single Movie
@@ -29,6 +29,6 @@ export function saveMovie(movie) {
 }
 
 // Delete Movie
-export function deleteMovie(movieId) {
-  return http.delete(movieUrl(movieId));
+export async function deleteMovie(movieId) {
+  return await http.delete(movieUrl(movieId));
 }

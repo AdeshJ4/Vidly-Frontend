@@ -7,12 +7,13 @@ import { paginate } from "../utils/paginate";
 import ListGroup from "./common/ListGroup";
 import { Link } from "react-router-dom";
 import MoviesTable from "./MoviesTable";
+import Pagination from "./common/Pagination";
 
 const Movies = ({ user }) => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 4;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" }); // movie name is title
@@ -137,6 +138,12 @@ const Movies = ({ user }) => {
           onLike={handleLike}
           onDelete={handleDelete}
           onSort={handleSort}
+        />
+        <Pagination 
+          movieCount ={totalCount}
+          pageSize={pageSize}  // 10 movies on one page
+          currentPage={currentPage}  // initially one 
+          onPageChange={handlePageChange}  // event handle to change page number
         />
       </div>
     </div>

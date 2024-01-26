@@ -5,12 +5,14 @@ import { getGenres } from "../services/genreService";
 import { deleteMovie, getMovies } from "../services/movieService";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./common/ListGroup";
+import { Link } from "react-router-dom";
+import MoviesTable from "./MoviesTable";
 
 const Movies = ({ user }) => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 4;
+  const pageSize = 10;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" }); // movie name is title
@@ -115,6 +117,26 @@ const Movies = ({ user }) => {
           genres={genres}
           selectedGenre={selectedGenre}
           onGenreSelect={handleGenreSelect}
+        />
+      </div>
+
+      <div className="col">
+        {user && (
+          <Link
+            to="movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
+        )}
+        <p>Showing {totalCount} movies in the database.</p>
+        <MoviesTable 
+          movies={data}
+          sortColumn={sortColumn}
+          onLike={handleLike}
+          onDelete={handleDelete}
+          onSort={handleSort}
         />
       </div>
     </div>

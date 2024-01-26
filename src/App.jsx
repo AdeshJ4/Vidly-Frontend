@@ -43,7 +43,7 @@ const App = () => {
           <Route path="/logout" element={<LogoutForm />} />
           <Route
             path="/movies"
-            element={<ProtectedRoute Component={Movies} />}
+            element={<ProtectedRoute Component={Movies} user={user} />}
           />
           <Route
             path="/movies/:id"

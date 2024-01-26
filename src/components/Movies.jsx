@@ -8,6 +8,7 @@ import ListGroup from "./common/ListGroup";
 import { Link } from "react-router-dom";
 import MoviesTable from "./MoviesTable";
 import Pagination from "./common/Pagination";
+import SearchBox from "./common/SearchBox";
 
 const Movies = ({ user }) => {
   const [movies, setMovies] = useState([]);
@@ -132,6 +133,7 @@ const Movies = ({ user }) => {
           </Link>
         )}
         <p>Showing {totalCount} movies in the database.</p>
+        <SearchBox value={searchQuery} onChange={handleSearch} />
         <MoviesTable 
           movies={data}
           sortColumn={sortColumn}

@@ -125,7 +125,7 @@ const Movies = ({ user }) => {
       <div className="col">
         {user && (
           <Link
-            to="movies/new"
+            to="/movies/new"
             className="btn btn-primary"
             style={{ marginBottom: 20 }}
           >

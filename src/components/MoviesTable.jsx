@@ -70,6 +70,8 @@ const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
   const user = auth.getCurrentUser();
   if (user && user.isAdmin) columns.push(deleteColumn);
 
+
+  
   return (
     <table className="table table-bordered">
       <thead>

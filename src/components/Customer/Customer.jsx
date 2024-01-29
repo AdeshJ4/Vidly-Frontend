@@ -95,7 +95,7 @@ const Customer = ({ user }) => {
       <div className="col">
         {user && (
           <Link
-            to="/customer/new"
+            to="/customers/new"
             className="btn btn-primary"
             style={{ marginBottom: 20 }}
           >

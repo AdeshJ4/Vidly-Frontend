@@ -59,7 +59,7 @@ const App = () => {
           />
           <Route
             path="/genres"
-            element={<ProtectedRoute Component={Genre} />}
+            element={<ProtectedRoute Component={Genre} user={user} />}
           />
           <Route
             path="/genres/:id"
@@ -67,7 +67,7 @@ const App = () => {
           />
           <Route
             path="/rentals"
-            element={<ProtectedRoute Component={Rental} />}
+            element={<ProtectedRoute Component={Rental} user={user}/>}
           />
           <Route
             path="/rentals/:id"

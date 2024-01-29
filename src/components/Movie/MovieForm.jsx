@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams, useSubmit } from "react-router-dom";
-import { getGenres } from "../services/genreService";
-import { getMovie, saveMovie } from "../services/movieService";
+import { getGenres } from "../../services/genreService";
+import { getMovie, saveMovie } from "../../services/movieService";
 
 const MovieForm = () => {
   const [data, setData] = useState({

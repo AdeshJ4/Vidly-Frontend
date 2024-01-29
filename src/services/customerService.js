@@ -8,27 +8,27 @@ function customerUrl(id) {
 }
 
 // Get All Movies
-export function getCustomers() {
-  return http.get(apiEndpoint);
+export async function getCustomers() {
+  return await http.get(apiEndpoint);
 }
 
 // Get Single Movie
-export function getCustomer(customerId) {
-  return http.get(customerUrl(customerId));
+export async function getCustomer(customerId) {
+  return await http.get(customerUrl(customerId));
 }
 
 // Create or Update Movie
-export function saveCustomer(customer) {
+export async function saveCustomer(customer) {
   if (customer._id) {
     const body = { ...customer };
     delete body._id;
-    return http.put(customerUrl(customer._id), body);
+    return await http.put(customerUrl(customer._id), body);
   }
 
-  return http.post(apiEndpoint, customer);
+  return await http.post(apiEndpoint, customer);
 }
 
 // Delete Movie
-export function deleteCustomer(customerId) {
-  return http.delete(customerUrl(customerId));
+export async function deleteCustomer(customerId) {
+  return await http.delete(customerUrl(customerId));
 }

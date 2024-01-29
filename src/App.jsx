@@ -9,18 +9,18 @@ import LoginForm from "./components/LoginForm";
 import LogoutForm from "./components/LogoutForm";
 import Home from "./components/Home";
 import NavBar from "./components/navBar";
-import Genre from "./components/Genre";
-import GenreForm from "./components/GenreForm";
-import Movies from "./components/Movies";
-import MovieForm from "./components/MovieForm";
-import Customer from "./components/Customer";
-import CustomerForm from "./components/CustomerForm";
-import Rental from "./components/Rental";
-import RentalForm from "./components/RentalForm";
-
-import auth from "./services/authService";
+import Genre from "./components/Genre/Genre";
+import GenreForm from "./components/Genre/GenreForm";
+import Movies from "./components/Movie/Movies";
+import MovieForm from "./components/Movie/MovieForm";
+import Customer from "./components/Customer/Customer";
+import CustomerForm from "./components/Customer/CustomerForm";
+import Rental from "./components/Rentals/Rental";
+import RentalForm from "./components/Rentals/RentalForm";
 import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+
+import auth from "./services/authService";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -50,20 +50,20 @@ const App = () => {
             element={<ProtectedRoute Component={MovieForm} />}
           />
           <Route
+            path="/customers"
+            element={<ProtectedRoute Component={Customer} user={user} />}
+          />
+          <Route
+            path="/customers/:id"
+            element={<ProtectedRoute Component={CustomerForm} />}
+          />
+          <Route
             path="/genres"
             element={<ProtectedRoute Component={Genre} />}
           />
           <Route
             path="/genres/:id"
             element={<ProtectedRoute Component={GenreForm} />}
-          />
-          <Route
-            path="/customers"
-            element={<ProtectedRoute Component={Customer} />}
-          />
-          <Route
-            path="/customers/:id"
-            element={<ProtectedRoute Component={CustomerForm} />}
           />
           <Route
             path="/rentals"

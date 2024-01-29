@@ -1,9 +1,9 @@
 import React from "react";
-import auth from "../services/authService";
+import auth from "../../services/authService";
 import { Link } from "react-router-dom";
-import Like from "../components/common/Like";
+import Like from "../common/Like";
 import _ from "lodash";
-import Table from "./common/Table";
+import Table from "../common/Table";
 
 const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
   // column fields
@@ -20,6 +20,7 @@ const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
     { path: "dailyRentalRate", label: "Rate" },
     {
       key: "like",
+      label: "Like",
       content: (movie) => (
         <Like liked={movie.liked} onClick={() => onLike(movie)} />
       ),
@@ -29,6 +30,7 @@ const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
   // admin delete operation
   const deleteColumn = {
     key: "delete",
+    label: "Delete",
     content: (movie) => (
       <button onClick={() => onDelete(movie)} className="btn btn-danger btn-sm">
         Delete
@@ -39,7 +41,6 @@ const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
   // check user is Admin or not
   const user = auth.getCurrentUser();
   if (user && user.isAdmin) columns.push(deleteColumn);
-
 
   return (
     <>
@@ -54,4 +55,3 @@ const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
 };
 
 export default MoviesTable;
-

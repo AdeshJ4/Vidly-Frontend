@@ -6,6 +6,9 @@ const TableBody = ({ columns, data }) => {
 
   const renderCell = (item, column) => {
     if(column.content) return column.content(item);
+    else if(typeof _.get(item, column.path) === 'boolean'){
+      return _.get(item, column.path) ? <span>Yes</span> : <span>No</span>;
+    }
     return _.get(item, column.path)
   }
 

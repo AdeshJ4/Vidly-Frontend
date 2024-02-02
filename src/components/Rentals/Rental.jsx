@@ -16,14 +16,12 @@ const Rental = ({ user }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 4;
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: "_id", order: "asc" }); // movie name is title
   const count = rentals.length;
 
-  // fetch movies and genres
-  async function fetchData() {
+
+  async function fetchRentals() {
     try {
-      //It's extracting the data property from the object returned by getGenres() and renaming it to genreData.
       const { data: rentalData } = await getRentals();
       setRentals(rentalData);
     } catch (err) {
@@ -32,20 +30,16 @@ const Rental = ({ user }) => {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchRentals();
   }, []);
-
 
   // you will get page no from Pagination and according to that you have to fetch movies
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-
-
   const handleSearch = (query) => {
     setSearchQuery(query);
-    setSelectedGenre(null);
     setCurrentPage(1);
   };
 
@@ -71,12 +65,11 @@ const Rental = ({ user }) => {
     return { totalCount: filtered.length, data: pagedRentals };
   };
 
-  if (count === 0) return <p>There are no rentals in the database.</p>;
+  if (count === 0) <p>There are no rentals in the database.</p>;
   const { totalCount, data } = getPagedData();
 
   return (
     <div className="row">
-
       <div className="col">
         {user && (
           <Link

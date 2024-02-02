@@ -8,7 +8,7 @@ import RegisterForm from "./components/RegisterForm";
 import LoginForm from "./components/LoginForm";
 import LogoutForm from "./components/LogoutForm";
 import Home from "./components/Home";
-import NavBar from "./components/navBar";
+import NavBar from "./components/NavBar";
 import Genre from "./components/Genre/Genre";
 import GenreForm from "./components/Genre/GenreForm";
 import Movies from "./components/Movie/Movies";
@@ -37,8 +37,8 @@ const App = () => {
       <NavBar user={user} />
       <main className="container">
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/logout" element={<LogoutForm />} />
           <Route

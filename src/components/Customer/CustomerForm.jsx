@@ -7,6 +7,7 @@ const CustomerForm = () => {
   const [data, setData] = useState({
     name: "",
     phone: "",
+    email: "",
     isGold: "",
   });
   const { id } = useParams();
@@ -30,6 +31,7 @@ const CustomerForm = () => {
       _id: customer._id,
       name: customer.name,
       phone: customer.phone,
+      email: customer.email,
       isGold: customer.isGold,
     };
   };
@@ -77,6 +79,18 @@ const CustomerForm = () => {
           className="form-control"
         />
       </div>
+
+      <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
+          <input
+            {...register("email")}
+            id="email"
+            type="email"
+            className="form-control"
+          />
+        </div>
 
 
       <div className="form-group mb-3">

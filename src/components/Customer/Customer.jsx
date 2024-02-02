@@ -79,19 +79,11 @@ const Customer = ({ user }) => {
     return { totalCount: filtered.length, data: pagedCustomers };
   };
 
-  if (count === 0) return <p>There are no customers in the database.</p>;
+  if (count === 0) <p>There are no customers in the database.</p>;
   const { totalCount, data } = getPagedData();
 
   return (
     <div className="row">
-      {/* <div className="col-3">
-        <ListGroup
-          customers={customers}
-          selectedGenre={selectedGenre}
-          onGenreSelect={handleGenreSelect}
-        />
-      </div> */}
-
       <div className="col">
         {user && (
           <Link

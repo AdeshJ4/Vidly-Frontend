@@ -1,6 +1,6 @@
 import Table from "../common/Table";
 
-const RentalTable = ({ rentals, sortColumn, onSort, onLike, onDelete }) => {
+const RentalTable = ({ rentals, sortColumn, onSort }) => {
   const columns = [
     {
       path: "customer.name",

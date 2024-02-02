@@ -5,9 +5,15 @@ body {
 }
 
 .navbar {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .clickable {
   cursor: pointer;
 }
+
+
+/* body {
+  background-color: antiquewhite;
+  color: white;
+} */

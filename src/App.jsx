@@ -35,7 +35,7 @@ const App = () => {
     <>
       <ToastContainer />
       <NavBar user={user} />
-      <main className="container">
+      <main>
         <Routes>
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/" element={<Home />} />
@@ -67,7 +67,7 @@ const App = () => {
           />
           <Route
             path="/rentals"
-            element={<ProtectedRoute Component={Rental} user={user}/>}
+            element={<ProtectedRoute Component={Rental} user={user} />}
           />
           <Route
             path="/rentals/:id"

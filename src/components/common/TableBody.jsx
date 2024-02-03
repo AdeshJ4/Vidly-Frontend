@@ -1,33 +1,33 @@
 import React from "react";
-import _ from 'lodash';
+import _ from "lodash";
 
 const TableBody = ({ columns, data }) => {
   console.log(data);
 
   const renderCell = (item, column) => {
-    if(column.content) return column.content(item);
-    else if(typeof _.get(item, column.path) === 'boolean'){
+    if (column.content) return column.content(item);
+    else if (typeof _.get(item, column.path) === "boolean") {
       return _.get(item, column.path) ? <span>Yes</span> : <span>No</span>;
     }
-    return _.get(item, column.path)
-  }
+    return _.get(item, column.path);
+  };
 
   // creating unique key
-  const createKey = (item, column) => {  
+  const createKey = (item, column) => {
     return item.id + (column.path || column.key);
-  }
+  };
   return (
-    
     <tbody>
-      {data.map((item) => (   // item = movie, customer
-        <tr key={item._id}>
-            {columns.map(column=>(
-                <td key={createKey(item, column)}>
-                    {renderCell(item, column)}
-                </td>
+      {data.map(
+        // item = movie, customer
+        (item) => (
+          <tr key={item._id}>
+            {columns.map((column) => (
+              <td key={createKey(item, column)}>{renderCell(item, column)}</td>
             ))}
-        </tr>
-      ))}
+          </tr>
+        )
+      )}
     </tbody>
   );
 };

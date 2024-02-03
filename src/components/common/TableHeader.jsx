@@ -3,18 +3,23 @@ import React from "react";
 const TableHeader = ({ columns, sortColumn, onSort }) => {
   const raiseSort = (path) => {
     const newSortColumn = { ...sortColumn };
-    if (newSortColumn.path === path)  // title  === noInStock
+    if (newSortColumn.path === path)
+      // title  === noInStock
       newSortColumn.order = newSortColumn.order === "asc" ? "desc" : "asc";
     else {
-      newSortColumn.path = path;   // {path: "noInStock", order: "asc"}
-      newSortColumn.order = "asc"; 
+      newSortColumn.path = path; // {path: "noInStock", order: "asc"}
+      newSortColumn.order = "asc";
     }
     onSort(newSortColumn);
   };
 
   const renderSortIcon = (column) => {
-    if (column.path !== sortColumn.path) return null;  // title !== title
-    return sortColumn.order === "asc" ? <i className="fa fa-sort-asc" /> : <i className="fa fa-sort-desc" />;
+    if (column.path !== sortColumn.path) return null; // title !== title
+    return sortColumn.order === "asc" ? (
+      <i className="fa fa-sort-asc" />
+    ) : (
+      <i className="fa fa-sort-desc" />
+    );
   };
 
   return (

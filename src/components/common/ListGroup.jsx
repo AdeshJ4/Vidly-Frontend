@@ -1,7 +1,7 @@
 import React from "react";
 
 const ListGroup = ({ genres, selectedGenre, onGenreSelect }) => {
-  console.log(genres);
+  // console.log(genres);
   return (
     <ul className="list-group">
       <li

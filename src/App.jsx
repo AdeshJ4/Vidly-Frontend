@@ -27,7 +27,6 @@ const App = () => {
 
   useEffect(() => {
     const currentUser = auth.getCurrentUser();
-    console.log("Current User: ", currentUser);
     setUser(currentUser);
   }, []);
 
@@ -35,7 +34,7 @@ const App = () => {
     <>
       <ToastContainer />
       <NavBar user={user} />
-      <main>
+      <main className="container">
         <Routes>
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/" element={<Home />} />

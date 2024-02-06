@@ -15,7 +15,7 @@ const MovieForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, getValues } = useForm();
 
   const populateGenres = async () => {
     const { data: genresData } = await getGenres();
@@ -67,61 +67,69 @@ const MovieForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">
-          Movie Name
-        </label>
-        <input
-          {...register("title")}
-          type="text"
-          defaultValue={data["title"]}
-          className="form-control"
-        />
-      </div>
+    <div className="row">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">
+            Movie Name
+          </label>
+          <input
+            {...register("title")}
+            type="text"
+            defaultValue={data["title"]}
+            className="form-control"
+          />
+        </div>
 
-      <div className="form-group mb-3">
-        <label className="form-label">Genre</label>
-        <select
-          {...register("genreId")}
-          defaultValue={data["genreId"]}
-          className="form-control"
-        >
-          <option value="">Select Genre -- </option>
-          {genres.map((genre) => (
-            <option key={genre._id} value={genre._id}>
-              {genre.name}
-            </option>
-          ))}
-        </select>
-      </div>
+        {/* <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => addMovie({ movieId: getValues("movies") })}
+        >Add Movie</button> */}
 
-      <div className="mb-3">
-        <label className="form-label">number In Stock</label>
-        <input
-          {...register("numberInStock")}
-          type="number"
-          defaultValue={data["numberInStock"]}
-          className="form-control"
-        />
-      </div>
+        <div className="form-group mb-3">
+          <label className="form-label">Genre</label>
+          <select
+            {...register("genreId")}
+            defaultValue={data["genreId"]}
+            className="form-control"
+          >
+            <option value="">Select Genre -- </option>
+            {genres.map((genre) => (
+              <option key={genre._id} value={genre._id}>
+                {genre.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div className="mb-3">
-        <label htmlFor="age" className="form-label">
-          daily Rental Rate
-        </label>
-        <input
-          {...register("dailyRentalRate")}
-          type="number"
-          defaultValue={data["dailyRentalRate"]}
-          className="form-control"
-        />
-      </div>
+        <div className="mb-3">
+          <label className="form-label">number In Stock</label>
+          <input
+            {...register("numberInStock")}
+            type="number"
+            defaultValue={data["numberInStock"]}
+            className="form-control"
+          />
+        </div>
 
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
-    </form>
+        <div className="mb-3">
+          <label htmlFor="age" className="form-label">
+            daily Rental Rate
+          </label>
+          <input
+            {...register("dailyRentalRate")}
+            type="number"
+            defaultValue={data["dailyRentalRate"]}
+            className="form-control"
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
 

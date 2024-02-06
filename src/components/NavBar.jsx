@@ -1,7 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
 const NavBar = ({ user }) => {
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      className="navbar navbar-expand-lg"
+      style={{ backgroundColor: "#e3f2fd" }}
+    >
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           Vidly
@@ -10,15 +13,17 @@ const NavBar = ({ user }) => {
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div
+          className="collapse navbar-collapse"
+          id="navbarToggleExternalContent"
+        >
           {user && (
             <>
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">

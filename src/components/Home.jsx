@@ -16,7 +16,7 @@ import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 
 const Home = () => {
   return (
-    <div className="container mt-5" style={{ backgroundColor: "antiquewhite" }}>
+    <>
       <h1 className="text-center mb-4">
         Welcome to Vidly - Your Movie Rental Destination
       </h1>
@@ -53,57 +53,56 @@ const Home = () => {
       </div>
 
       <div className="row mt-5">
-        <div class="row">
+        <div className="row">
           <h2 style={{ textAlign: "center" }}>Top Movies</h2>
-          <div class="col-lg-4 mb-4">
+          <div className="col-lg-4 mb-4">
             {/* style="width: 18rem;" */}
             {/* <div class="card" style={{ width: "18rem" }}> */}
-            <div class="card">
+            <div className="card">
               <img src={batman} alt="" class="card-img-top" />
-              <div class="card-body">
-                <h5 class="card-title">The Dark Knight</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">The Dark Knight</h5>
+                <p className="card-text">
                   When the menace known as the Joker wreaks havoc and chaos on
                   the people of Gotham, Batman must accept one of the greatest
                   psychological and physical tests of his ability to fight
                   injustice.
                 </p>
-                <a href="" class="btn btn-outline-success btn-sm">
+                <a href="" className="btn btn-outline-success btn-sm">
                   Read More
                 </a>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 mb-4">
-            {/* <div class="card" style={{ width: "18rem" }}> */}
-            <div class="card">
+          <div className="col-lg-4 mb-4">
+            <div className="card">
               <img src={hobbit} alt="" class="card-img-top" />
-              <div class="card-body">
-                <h5 class="card-title">The Hobbit</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">The Hobbit</h5>
+                <p className="card-text">
                   A reluctant Hobbit, Bilbo Baggies, sets out to the Lonely
                   Mountain with a spirited group of dwarves to reclaim their
                   mountain home, and the gold within it from the dragon Smug.
                 </p>
-                <a href="" class="btn btn-outline-success btn-sm">
+                <a href="" className="btn btn-outline-success btn-sm">
                   Read More
                 </a>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 mb-4">
+          <div className="col-lg-4 mb-4">
             {/* <div class="card" style={{ width: "18rem" }}> */}
-            <div class="card">
+            <div className="card">
               <img src={inception} alt="" class="card-img-top" />
-              <div class="card-body">
-                <h5 class="card-title">Inception</h5>
-                <p class="card-text">
+              <div className="card-body">
+                <h5 className="card-title">Inception</h5>
+                <p className="card-text">
                   A thief who steals corporate secrets through the use of
                   dream-sharing technology is given the inverse task of planting
                   an idea into the mind of a C.E.O., but his tragic past may
                   doom the project and his team to disaster.
                 </p>
-                <a href="" class="btn btn-outline-success btn-sm">
+                <a href="" className="btn btn-outline-success btn-sm">
                   Read More
                 </a>
               </div>
@@ -258,7 +257,7 @@ const Home = () => {
           </div>
         </footer>
       </div>
-    </div>
+    </>
   );
 };
 

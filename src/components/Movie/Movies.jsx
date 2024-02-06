@@ -1,3 +1,4 @@
+// original 1
 import _ from "lodash";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -14,7 +15,7 @@ const Movies = ({ user }) => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 4;
+  const pageSize = 8;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" }); // movie name is title
@@ -104,7 +105,7 @@ const Movies = ({ user }) => {
     }
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const pagedMovies = paginate(sorted, currentPage, pageSize);
+    const pagedMovies = paginate(sorted, currentPage, pageSize);  // 10 , 1, 8
 
     return { totalCount: filtered.length, data: pagedMovies };
   };
@@ -113,45 +114,43 @@ const Movies = ({ user }) => {
   const { totalCount, data } = getPagedData();
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-3 mb-3">
-          <ListGroup
-            genres={genres}
-            selectedGenre={selectedGenre}
-            onGenreSelect={handleGenreSelect}
-          />
-        </div>
+    <div className="row">
+      <div className="col-md-3 mb-3">
+        <ListGroup
+          genres={genres}
+          selectedGenre={selectedGenre}
+          onGenreSelect={handleGenreSelect}
+        />
+      </div>
 
-        <div className="col-md-9">
-          {user && (
-            <Link
-              to="/movies/new"
-              className="btn btn-primary"
-              style={{ marginBottom: 20 }}
-            >
-              New Movie
-            </Link>
-          )}
-          <p class="text-muted">
-            Showing <span class="text-primary">{totalCount}</span> movies in the
-            database.
-          </p>
-          <SearchBox value={searchQuery} onChange={handleSearch} />
-          <MoviesTable
-            movies={data}
-            sortColumn={sortColumn}
-            onLike={handleLike}
-            onDelete={handleDelete}
-            onSort={handleSort}
-          />
-          <Pagination
-            itemsCount={totalCount}
-            pageSize={pageSize} // 10 movies on one page
-            currentPage={currentPage} // initially one
-            onPageChange={handlePageChange} // event handle to change page number
-          />
-        </div>
+      <div className="col-md-9">
+        {user && (
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
+        )}
+        <p class="text-muted">
+          Showing <span class="text-primary">{totalCount}</span> movies in the
+          database.
+        </p>
+        <SearchBox value={searchQuery} onChange={handleSearch} />
+        <MoviesTable
+          movies={data}
+          sortColumn={sortColumn}
+          onLike={handleLike}
+          onDelete={handleDelete}
+          onSort={handleSort}
+        />
+        <Pagination
+          itemsCount={totalCount}
+          pageSize={pageSize} // 10 movies on one page
+          currentPage={currentPage} // initially one
+          onPageChange={handlePageChange} // event handle to change page number
+        />
       </div>
     </div>
   );

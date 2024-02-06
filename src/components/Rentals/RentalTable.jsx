@@ -6,7 +6,7 @@ const RentalTable = ({ rentals, sortColumn, onSort }) => {
       path: "customer.name",
       label: "Customer",
     },
-    { path: "movie.title", label: "Movies" },
+    // { path: "movies", label: "Movies" },
     { path: "dateOut", label: "Date Out" },
     { path: "dateReturned", label: "Date Returned" },
   ];

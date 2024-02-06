@@ -81,17 +81,17 @@ const CustomerForm = () => {
       </div>
 
       <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            {...register("email")}
-            id="email"
-            type="email"
-            className="form-control"
-          />
-        </div>
-
+        <label htmlFor="email" className="form-label">
+          Email
+        </label>
+        <input
+          {...register("email")}
+          id="email"
+          type="email"
+          defaultValue={data["email"]}
+          className="form-control"
+        />
+      </div>
 
       <div className="form-group mb-3">
         <label className="form-label">Membership</label>
@@ -105,7 +105,6 @@ const CustomerForm = () => {
           <option value={false}>No</option>
         </select>
       </div>
-
 
       <button type="submit" className="btn btn-primary">
         Submit

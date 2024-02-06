@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { deleteCustomer, getCustomers } from "../../services/customerService";
 import { paginate } from "../../utils/paginate";
-import ListGroup from "../common/ListGroup"; // customer "isGold" or Not
 import { Link } from "react-router-dom";
 import CustomerTable from "../Customer/CustomerTable";
 import Pagination from "../common/Pagination";
@@ -23,6 +22,7 @@ const Customer = ({ user }) => {
       //It's extracting the data property from the object returned by getGenres() and renaming it to customerData.
       const { data: customerData } = await getCustomers();
       setCustomers(customerData);
+      console.log('Customers: ', customerData);
     } catch (err) {
       console.log(err.message);
     }
@@ -94,7 +94,10 @@ const Customer = ({ user }) => {
             New Customer
           </Link>
         )}
-        <p>Showing {totalCount} Customers in the database.</p>
+        <p class="text-muted">
+          Showing <span class="text-primary">{totalCount}</span> Customers in
+          the database.
+        </p>
         <SearchBox value={searchQuery} onChange={handleSearch} />
         <CustomerTable
           customers={data}

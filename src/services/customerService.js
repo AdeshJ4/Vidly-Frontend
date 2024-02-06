@@ -9,8 +9,13 @@ function customerUrl(id) {
 
 // Get All Movies
 export async function getCustomers() {
-  return await http.get(apiEndpoint);
+  const data = await http.get(apiEndpoint);
+  console.log(data);
+  return data;
 }
+// export async function getCustomers() {
+//   return await http.get(apiEndpoint);
+// }
 
 // Get Single Movie
 export async function getCustomer(customerId) {

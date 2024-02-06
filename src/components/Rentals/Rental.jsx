@@ -19,10 +19,10 @@ const Rental = ({ user }) => {
   const [sortColumn, setSortColumn] = useState({ path: "_id", order: "asc" }); // movie name is title
   const count = rentals.length;
 
-
   async function fetchRentals() {
     try {
       const { data: rentalData } = await getRentals();
+      console.log("rentals: ", rentalData);
       setRentals(rentalData);
     } catch (err) {
       console.log(err.message);
@@ -80,7 +80,10 @@ const Rental = ({ user }) => {
             New Rental
           </Link>
         )}
-        <p>Showing {totalCount} rentals in the database.</p>
+        <p class="text-muted">
+          Showing <span class="text-primary">{totalCount}</span> rentals in the
+          database.
+        </p>
         <SearchBox value={searchQuery} onChange={handleSearch} />
         <RentalTable
           rentals={data}

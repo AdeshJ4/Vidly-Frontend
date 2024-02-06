@@ -7,9 +7,14 @@ function movieUrl(id) {
   return `${apiEndpoint}/${id}`;
 }
 
+function moviePage(page) {
+  return `${apiEndpoint}?${page}`;
+}
+
 // Get All Movies
-export async function getMovies() {
-  return await http.get(apiEndpoint);
+export async function getMovies(currentPage) {
+  // return await http.get(apiEndpoint);
+  return await http.get(moviePage(currentPage));
 }
 
 // Get Single Movie
@@ -21,7 +26,7 @@ export async function getMovie(movieId) {
 export async function saveMovie(movie) {
   if (movie._id) {
     const body = { ...movie };
-    delete body._id;  // delete _id property
+    delete body._id; // delete _id property
     return await http.put(movieUrl(movie._id), body);
   }
 

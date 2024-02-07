@@ -1,23 +1,25 @@
 import _ from "lodash";
 
 const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
-  // 20, 5, 1
-  const pagesCount = Math.ceil(itemsCount / pageSize); // 20/5=4
+  const pagesCount = Math.ceil(itemsCount / pageSize);
   if (pagesCount === 1) return null;
-  const pages = _.range(1, pagesCount + 1); // [1, 2, 3, 4]
+  const pages = _.range(1, pagesCount + 1);
 
   const getPrevPage = () => {
-    // if(currentPage - 1 === )
-    onPageChange(currentPage - 1);
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
   };
 
   const getNextPage = () => {
-    onPageChange(currentPage + 1);
+    if (currentPage < pagesCount) {
+      onPageChange(currentPage + 1);
+    }
   };
 
   return (
     <nav>
-      <ul className="pagination">
+      <ul className="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" onClick={() => getPrevPage()}>
             Previous

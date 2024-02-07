@@ -1,10 +1,13 @@
-// original 1
 import _ from "lodash";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getGenres } from "../../services/genreService";
-import { deleteMovie, getMovies } from "../../services/movieService";
-import { paginate } from "../../utils/paginate";
+import {
+  deleteMovie,
+  getMovies,
+  getMoviesByGenre,
+  getMoviesBySearchQuery,
+} from "../../services/movieService";
 import ListGroup from "../common/ListGroup";
 import { Link } from "react-router-dom";
 import MoviesTable from "./MoviesTable";
@@ -15,34 +18,54 @@ const Movies = ({ user }) => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 8;
+  const pageSize = 10;
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" }); // movie name is title
-  const count = movies.length;
+  const [count, setTotalCount] = useState();
 
-  // fetch movies and genres
-  async function fetchData() {
+  const fetchMoviesData = async () => {
     try {
-      //It's extracting the data property from the object returned by getGenres() and renaming it to genreData.
-      const { data: genreData } = await getGenres();
-      //It's extracting the data property from the object returned by getMovies() and renaming it to movieData.
-      const { data: movieData } = await getMovies();
-
-      setMovies(movieData);
-      setGenres(genreData);
+      let moviesData;
+      if (searchQuery) {
+        moviesData = await getMoviesBySearchQuery(searchQuery, currentPage);
+      } else if (selectedGenre) {
+        moviesData = await getMoviesByGenre(selectedGenre, currentPage);
+      } else {
+        moviesData = await getMovies(currentPage);
+      }
+      const sorted = _.orderBy(
+        moviesData.data.movies,
+        [sortColumn.path],
+        [sortColumn.order]
+      );
+      setMovies(sorted);
+      setTotalCount(moviesData.data.count);
     } catch (err) {
-      console.log(err.message);
+      toast.error("Failed to fetch movies.");
     }
-  }
+  };
+
+  const fetchGenres = async () => {
+    try {
+      const { data } = await getGenres();
+      setGenres(data);
+    } catch (err) {
+      toast.error("Failed to fetch genres.");
+    }
+  };
 
   useEffect(() => {
-    fetchData();
+    fetchGenres();
   }, []);
+
+  useEffect(() => {
+    fetchMoviesData();
+  }, [currentPage, searchQuery, selectedGenre]);
 
   // delete movies
   async function handleDelete(movie) {
-    const originalMovies = [...movies]; //Create a copy of the original array of movies
+    const originalMovies = [...movies];
     setMovies(movies.filter((m) => m._id !== movie._id));
     try {
       await deleteMovie(movie._id);
@@ -55,7 +78,6 @@ const Movies = ({ user }) => {
     }
   }
 
-  // handle like
   const handleLike = (movie) => {
     const originalMovies = [...movies];
     const index = originalMovies.indexOf(movie);
@@ -66,12 +88,17 @@ const Movies = ({ user }) => {
     setMovies(originalMovies);
   };
 
-  // you will get page no from Pagination and according to that you have to fetch movies
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // get all movies according to genre
+  // sorting movies
+  const handleSort = (sortColumn) => {
+    setSortColumn(sortColumn);
+    const sorted = _.orderBy(movies, [sortColumn.path], [sortColumn.order]);
+    setMovies(sorted);
+  };
+
   const handleGenreSelect = (genre) => {
     setSelectedGenre(genre);
     setSearchQuery("");
@@ -84,34 +111,7 @@ const Movies = ({ user }) => {
     setCurrentPage(1);
   };
 
-  // sorting movies
-  const handleSort = (sortColumn) => {
-    setSortColumn(sortColumn);
-  };
-
-  // Filters and sorts the movies based on the current state (e.g., search query, selected genre, sort column, etc.).
-  // Utilizes the paginate function to get a subset of movies for the current page.
-  const getPagedData = () => {
-    const allMovies = [...movies];
-    let filtered = allMovies;
-
-    if (searchQuery)
-      filtered = allMovies.filter((m) =>
-        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
-      );
-    // all movies having selected genre will be returned.
-    else if (selectedGenre && selectedGenre._id) {
-      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
-    }
-
-    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const pagedMovies = paginate(sorted, currentPage, pageSize);  // 10 , 1, 8
-
-    return { totalCount: filtered.length, data: pagedMovies };
-  };
-
-  if (count === 0) return <p>There are no movies in the database.</p>;
-  const { totalCount, data } = getPagedData();
+  if (count === 0) <p>There are no movies in the database.</p>;
 
   return (
     <div className="row">
@@ -134,19 +134,19 @@ const Movies = ({ user }) => {
           </Link>
         )}
         <p class="text-muted">
-          Showing <span class="text-primary">{totalCount}</span> movies in the
+          Showing <span class="text-primary">{count}</span> movies in the
           database.
         </p>
         <SearchBox value={searchQuery} onChange={handleSearch} />
         <MoviesTable
-          movies={data}
+          movies={movies}
           sortColumn={sortColumn}
           onLike={handleLike}
           onDelete={handleDelete}
           onSort={handleSort}
         />
         <Pagination
-          itemsCount={totalCount}
+          itemsCount={count}
           pageSize={pageSize} // 10 movies on one page
           currentPage={currentPage} // initially one
           onPageChange={handlePageChange} // event handle to change page number

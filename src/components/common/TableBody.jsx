@@ -2,7 +2,6 @@ import React from "react";
 import _ from "lodash";
 
 const TableBody = ({ columns, data }) => {
-  console.log(data);
 
   const renderCell = (item, column) => {
     if (column.content) return column.content(item);
@@ -18,8 +17,7 @@ const TableBody = ({ columns, data }) => {
   };
   return (
     <tbody>
-      {data.map(
-        // item = movie, customer
+      {data && data.map(
         (item) => (
           <tr key={item._id}>
             {columns.map((column) => (
@@ -29,6 +27,17 @@ const TableBody = ({ columns, data }) => {
         )
       )}
     </tbody>
+    // <tbody>
+    //   {data.map(
+    //     (item) => (
+    //       <tr key={item._id}>
+    //         {columns.map((column) => (
+    //           <td key={createKey(item, column)}>{renderCell(item, column)}</td>
+    //         ))}
+    //       </tr>
+    //     )
+    //   )}
+    // </tbody>
   );
 };
 

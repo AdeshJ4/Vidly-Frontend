@@ -16,14 +16,18 @@ const CustomerTable = ({ customers, sortColumn, onSort, onDelete }) => {
       ),
     },
     { path: "phone", label: "Phone" },
-    { path: "isGold", label: "Gold Membership" },
+    { path: "email", label: "Email" },
+    { path: "membership", label: "Membership" },
   ];
 
   // admin delete operation
   const deleteColumn = {
     key: "delete",
     content: (customer) => (
-      <button onClick={() => onDelete(customer)} className="btn btn-danger btn-sm">
+      <button
+        onClick={() => onDelete(customer)}
+        className="btn btn-danger btn-sm"
+      >
         Delete
       </button>
     ),
@@ -45,4 +49,4 @@ const CustomerTable = ({ customers, sortColumn, onSort, onDelete }) => {
   );
 };
 
-export default CustomerTable
+export default CustomerTable;

@@ -4,10 +4,9 @@ const TableHeader = ({ columns, sortColumn, onSort }) => {
   const raiseSort = (path) => {
     const newSortColumn = { ...sortColumn };
     if (newSortColumn.path === path)
-      // title  === noInStock
       newSortColumn.order = newSortColumn.order === "asc" ? "desc" : "asc";
     else {
-      newSortColumn.path = path; // {path: "noInStock", order: "asc"}
+      newSortColumn.path = path;
       newSortColumn.order = "asc";
     }
     onSort(newSortColumn);

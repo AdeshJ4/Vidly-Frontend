@@ -2,12 +2,8 @@ import React from "react";
 import _ from "lodash";
 
 const TableBody = ({ columns, data }) => {
-
   const renderCell = (item, column) => {
     if (column.content) return column.content(item);
-    else if (typeof _.get(item, column.path) === "boolean") {
-      return _.get(item, column.path) ? <span>Yes</span> : <span>No</span>;
-    }
     return _.get(item, column.path);
   };
 
@@ -17,15 +13,14 @@ const TableBody = ({ columns, data }) => {
   };
   return (
     <tbody>
-      {data && data.map(
-        (item) => (
+      {data &&
+        data.map((item) => (
           <tr key={item._id}>
             {columns.map((column) => (
               <td key={createKey(item, column)}>{renderCell(item, column)}</td>
             ))}
           </tr>
-        )
-      )}
+        ))}
     </tbody>
     // <tbody>
     //   {data.map(

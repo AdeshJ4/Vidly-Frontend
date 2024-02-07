@@ -8,7 +8,7 @@ const CustomerForm = () => {
     name: "",
     phone: "",
     email: "",
-    isGold: "",
+    membership: "",
   });
   const { id } = useParams();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const CustomerForm = () => {
       name: customer.name,
       phone: customer.phone,
       email: customer.email,
-      isGold: customer.isGold,
+      membership: customer.membership,
     };
   };
 
@@ -96,13 +96,15 @@ const CustomerForm = () => {
       <div className="form-group mb-3">
         <label className="form-label">Membership</label>
         <select
-          {...register("isGold")}
-          defaultValue={data["isGold"]}
+          {...register("membership")}
+          defaultValue={data["membership"]}
           className="form-control"
         >
           <option value=""> -- Want Membership -- </option>
-          <option value={true}>Yes</option>
-          <option value={false}>No</option>
+          <option value={"normal"}>No</option>
+          <option value={"bronze"}>Bronze</option>
+          <option value={"silver"}>Silver</option>
+          <option value={"gold"}>Gold</option>
         </select>
       </div>
 

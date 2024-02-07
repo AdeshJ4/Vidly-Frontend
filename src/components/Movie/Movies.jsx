@@ -133,11 +133,14 @@ const Movies = ({ user }) => {
             New Movie
           </Link>
         )}
+
         <p class="text-muted">
           Showing <span class="text-primary">{count}</span> movies in the
           database.
         </p>
+
         <SearchBox value={searchQuery} onChange={handleSearch} />
+
         <MoviesTable
           movies={movies}
           sortColumn={sortColumn}
@@ -145,6 +148,7 @@ const Movies = ({ user }) => {
           onDelete={handleDelete}
           onSort={handleSort}
         />
+
         <Pagination
           itemsCount={count}
           pageSize={pageSize} // 10 movies on one page

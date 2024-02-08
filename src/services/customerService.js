@@ -33,7 +33,7 @@ export async function getCustomers(currentPage) {
 // Get Customers based on membership
 // api/customers/membership/Gold?pageNumber=1
 function customerMembership(membership, pageNumber) {
-  return `${apiEndpoint}/membership/${membership}?pageNumber=${pageNumber}`;
+  return `${apiEndpoint}/membership/${membership.name}?pageNumber=${pageNumber}`;
 }
 export async function getCustomersByMemberships(pageNumber, membership) {
   return await http.get(customerMembership(pageNumber, membership));

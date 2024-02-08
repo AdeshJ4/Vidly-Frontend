@@ -34,6 +34,8 @@ const Movies = ({ user }) => {
       } else {
         moviesData = await getMovies(currentPage);
       }
+      // fetch genres
+      await fetchGenres();
       const sorted = _.orderBy(
         moviesData.data.movies,
         [sortColumn.path],
@@ -42,22 +44,25 @@ const Movies = ({ user }) => {
       setMovies(sorted);
       setTotalCount(moviesData.data.count);
     } catch (err) {
-      toast.error("Failed to fetch movies.");
+      console.log(err.message);
+      toast.error("Failed to fetch movies/Genres.");
     }
   };
 
   const fetchGenres = async () => {
     try {
-      const { data } = await getGenres();
-      setGenres(data);
+      if (genres.length === 0) {
+        const { data } = await getGenres();
+        setGenres(data);
+      }
     } catch (err) {
       toast.error("Failed to fetch genres.");
     }
   };
 
-  useEffect(() => {
-    fetchGenres();
-  }, []);
+  // useEffect(() => {
+  //   fetchGenres();
+  // }, []);
 
   useEffect(() => {
     fetchMoviesData();
@@ -117,9 +122,9 @@ const Movies = ({ user }) => {
     <div className="row">
       <div className="col-md-3 mb-3">
         <ListGroup
-          genres={genres}
-          selectedGenre={selectedGenre}
-          onGenreSelect={handleGenreSelect}
+          items={genres}
+          selectedItem={selectedGenre}
+          onItemSelect={handleGenreSelect}
         />
       </div>
 

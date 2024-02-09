@@ -59,11 +59,7 @@ const Movies = ({ user }) => {
       toast.error("Failed to fetch genres.");
     }
   };
-
-  // useEffect(() => {
-  //   fetchGenres();
-  // }, []);
-
+  
   useEffect(() => {
     fetchMoviesData();
   }, [currentPage, searchQuery, selectedGenre]);

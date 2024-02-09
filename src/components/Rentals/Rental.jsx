@@ -1,37 +1,54 @@
 import _ from "lodash";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { getGenres } from "../../services/genreService";
-import { deleteMovie, getMovies } from "../../services/movieService";
-import { paginate } from "../../utils/paginate";
-import ListGroup from "../common/ListGroup";
 import { Link } from "react-router-dom";
 import RentalTable from "./RentalTable";
 import Pagination from "../common/Pagination";
 import SearchBox from "../common/SearchBox";
-import { getRentals } from "../../services/rentalService";
+import { getRental, getRentals } from "../../services/rentalService";
 
 const Rental = ({ user }) => {
   const [rentals, setRentals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 4;
+  const pageSize = 10;
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortColumn, setSortColumn] = useState({ path: "_id", order: "asc" }); // movie name is title
-  const count = rentals.length;
+  const [sortColumn, setSortColumn] = useState({ path: "_id", order: "asc" });
+  const [count, setTotalCount] = useState();
 
-  async function fetchRentals() {
+  const fetchRentalsData = async () => {
     try {
-      const { data: rentalData } = await getRentals();
-      console.log("rentals: ", rentalData);
-      setRentals(rentalData);
+      let rentalsData;
+      if (searchQuery) {
+        if (searchQuery.length >= 24) {
+          rentalsData = await getRental(searchQuery);
+        } else {
+          setRentals([]);
+          setTotalCount(0);
+          return; // Exit the function early to prevent further execution
+        }
+      } else {
+        rentalsData = await getRentals(currentPage);
+      }
+  
+      console.log(rentalsData);
+      console.log("count: ", rentalsData.data.count);
+      console.log("rental: ", rentalsData.data.rentals);
+      const sorted = _.orderBy(
+        rentalsData.data.rentals,
+        [sortColumn.path],
+        [sortColumn.order]
+      );
+      setRentals(sorted);
+      setTotalCount(rentalsData.data.count);
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
+      toast.error(err.response.data);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchRentals();
-  }, []);
+    fetchRentalsData();
+  }, [currentPage, searchQuery]);
 
   // you will get page no from Pagination and according to that you have to fetch movies
   const handlePageChange = (page) => {
@@ -46,27 +63,11 @@ const Rental = ({ user }) => {
   // sorting movies
   const handleSort = (sortColumn) => {
     setSortColumn(sortColumn);
-  };
-
-  // Filters and sorts the movies based on the current state (e.g., search query, selected genre, sort column, etc.).
-  // Utilizes the paginate function to get a subset of movies for the current page.
-  const getPagedData = () => {
-    const allRentals = [...rentals];
-    let filtered = allRentals;
-
-    if (searchQuery)
-      filtered = allRentals.filter((m) =>
-        m._id.toLowerCase().startsWith(searchQuery.toLowerCase())
-      );
-
-    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const pagedRentals = paginate(sorted, currentPage, pageSize);
-
-    return { totalCount: filtered.length, data: pagedRentals };
+    const sorted = _.orderBy(rentals, [sortColumn.path], [sortColumn.order]);
+    setRentals(sorted);
   };
 
   if (count === 0) <p>There are no rentals in the database.</p>;
-  const { totalCount, data } = getPagedData();
 
   return (
     <div className="row">
@@ -81,17 +82,17 @@ const Rental = ({ user }) => {
           </Link>
         )}
         <p class="text-muted">
-          Showing <span class="text-primary">{totalCount}</span> rentals in the
+          Showing <span class="text-primary">{count}</span> rentals in the
           database.
         </p>
         <SearchBox value={searchQuery} onChange={handleSearch} />
         <RentalTable
-          rentals={data}
+          rentals={rentals}
           sortColumn={sortColumn}
           onSort={handleSort}
         />
         <Pagination
-          itemsCount={totalCount}
+          itemsCount={count}
           pageSize={pageSize} // 10 movies on one page
           currentPage={currentPage} // initially one
           onPageChange={handlePageChange} // event handle to change page number

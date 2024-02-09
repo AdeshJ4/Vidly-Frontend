@@ -22,17 +22,6 @@ const TableBody = ({ columns, data }) => {
           </tr>
         ))}
     </tbody>
-    // <tbody>
-    //   {data.map(
-    //     (item) => (
-    //       <tr key={item._id}>
-    //         {columns.map((column) => (
-    //           <td key={createKey(item, column)}>{renderCell(item, column)}</td>
-    //         ))}
-    //       </tr>
-    //     )
-    //   )}
-    // </tbody>
   );
 };
 

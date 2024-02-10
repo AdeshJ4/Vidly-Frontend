@@ -22,6 +22,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 
 import auth from "./services/authService";
 import Users from "./components/User/Users";
+import Profile from "./components/Profile";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -41,6 +42,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/logout" element={<LogoutForm />} />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute Component={Profile} user={user} />}
+          />
           <Route
             path="/movies"
             element={<ProtectedRoute Component={Movies} user={user} />}

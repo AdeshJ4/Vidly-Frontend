@@ -2,20 +2,15 @@ import http from "./httpService";
 import { apiUrl } from "../config/config.json";
 
 const apiEndpoint = apiUrl + "/users";
-// const apiEndpoint = apiUrl + "/users/register";
 
-// create a user/employee
-// async function register(user) {
-//   return await http.post(apiEndpoint, {
-//     name: user.name,
-//     email: user.email,
-//     password: user.password,
-//   });
-// }
 
 // /api/users/65c1e2bdc56595645b7d6fce
 function userUrl(id) {
   return `${apiEndpoint}/${id}`;
+}
+//get single user
+export async function getUser(userId){
+  return await http.get(userUrl(userId))
 }
 
 // create or update
@@ -49,7 +44,7 @@ export async function getUsers(currentPage) {
 // get Users based on search
 // api/users/search/userName?pageNumber=1
 function userSearch(query, pageNumber) {
-  return `${apiEndpoint}/${query}?pageNumber=${pageNumber}`;
+  return `${apiEndpoint}/search/${query}?pageNumber=${pageNumber}`;
 }
 export const getUsersBySearchQuery = async (query, pageNumber) => {
   return await http.get(userSearch(query, pageNumber));

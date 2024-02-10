@@ -62,6 +62,13 @@ const NavBar = ({ user }) => {
               </ul>
 
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex">
+                {user && (
+                  <li className="nav-item me-3">
+                    <NavLink className="nav-item nav-link" to="/profile">
+                      Profile
+                    </NavLink>
+                  </li>
+                )}
                 <li className="nav-item me-3">
                   <NavLink className="nav-item nav-link" to="/logout">
                     Logout

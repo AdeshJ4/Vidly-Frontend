@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import userService from "../services/userService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
+import { registerUser } from "../services/userService";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   name: z
@@ -47,7 +48,8 @@ const RegisterForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      await userService.register(data);
+      await registerUser(data);
+      // useNavigate("/login");
       window.location = "/login";
     } catch (err) {
       console.log(err.message);

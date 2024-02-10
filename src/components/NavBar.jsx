@@ -52,6 +52,13 @@ const NavBar = ({ user }) => {
                     {user.name}
                   </NavLink>
                 </li>
+                {user.isAdmin && (
+                  <li className="nav-item">
+                    <NavLink className="nav-item nav-link" to="/users">
+                      Admin
+                    </NavLink>
+                  </li>
+                )}
               </ul>
 
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex">
@@ -63,6 +70,7 @@ const NavBar = ({ user }) => {
               </ul>
             </>
           )}
+
           {!user && (
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex">
               <li className="nav-item me-3">

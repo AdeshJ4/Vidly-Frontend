@@ -21,6 +21,7 @@ import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 
 import auth from "./services/authService";
+import Users from "./components/User/Users";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -47,6 +48,10 @@ const App = () => {
           <Route
             path="/movies/:id"
             element={<ProtectedRoute Component={MovieForm} />}
+          />
+          <Route
+            path="/users"
+            element={<ProtectedRoute Component={Users} />}
           />
           <Route
             path="/customers"

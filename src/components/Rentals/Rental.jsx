@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import RentalTable from "./RentalTable";
@@ -51,21 +51,21 @@ const Rental = ({ user }) => {
   }, [currentPage, searchQuery]);
 
   // you will get page no from Pagination and according to that you have to fetch movies
-  const handlePageChange = (page) => {
+  const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
-  };
+  }, [currentPage]);
 
-  const handleSearch = (query) => {
+  const handleSearch = useCallback((query) => {
     setSearchQuery(query);
     setCurrentPage(1);
-  };
+  }, [searchQuery]);
 
   // sorting movies
-  const handleSort = (sortColumn) => {
+  const handleSort = useCallback((sortColumn) => {
     setSortColumn(sortColumn);
     const sorted = _.orderBy(rentals, [sortColumn.path], [sortColumn.order]);
     setRentals(sorted);
-  };
+  }, [sortColumn, rentals]);
 
   if (count === 0) <p>There are no rentals in the database.</p>;
 

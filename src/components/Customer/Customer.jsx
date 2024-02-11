@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { toast } from "react-toastify";
 import {
   deleteCustomer,
@@ -60,7 +60,7 @@ const Customer = ({ user }) => {
   }, [currentPage, searchQuery, selectedMembership]);
 
   // delete customers
-  async function handleDelete(customer) {
+  const handleDelete = useCallback(async (customer) => {
     const originalCustomers = [...customers];
     try {
       setCustomers(customers.filter((c) => c._id !== customer._id));
@@ -70,31 +70,31 @@ const Customer = ({ user }) => {
       if (err.response && err.response.status === 404) {
         toast.error("This customer has already been deleted.");
       }
-      setMovies(originalCustomers);
+      setCustomers(originalCustomers);
     }
-  }
+  }, [customers]);
 
   // you will get page no from Pagination and according to that you have to fetch customers
-  const handlePageChange = (page) => {
+  const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
-  };
+  }, [currentPage]);
 
-  const handleSearch = (query) => {
+  const handleSearch = useCallback((query) => {
     setSearchQuery(query);
     setCurrentPage(1);
-  };
+  }, [searchQuery]);
 
-  const handleSort = (sortColumn) => {
+  const handleSort = useCallback((sortColumn) => {
     setSortColumn(sortColumn);
     const sorted = _.orderBy(customers, [sortColumn.path], [sortColumn.order]);
     setCustomers(sorted);
-  };
+  }, [sortColumn, customers]);
 
-  const handleMembershipSelect = (membership) => {
+  const handleMembershipSelect = useCallback((membership) => {
     setSelectedMembership(membership);
     setSearchQuery("");
     setCurrentPage(1);
-  };
+  }, [selectedMembership]);
 
   if (count === 0) <p>There are no customers in the database.</p>;
 

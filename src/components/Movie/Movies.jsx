@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { getGenres } from "../../services/genreService";
 import {
@@ -59,58 +59,77 @@ const Movies = ({ user }) => {
       toast.error("Failed to fetch genres.");
     }
   };
-  
+
   useEffect(() => {
     fetchMoviesData();
   }, [currentPage, searchQuery, selectedGenre]);
 
+
   // delete movies
-  async function handleDelete(movie) {
-    const originalMovies = [...movies];
-    setMovies(movies.filter((m) => m._id !== movie._id));
-    try {
-      await deleteMovie(movie._id);
-    } catch (err) {
-      console.log(err.response);
-      if (err.response && err.response.status === 404) {
-        toast.error("This movie has already been deleted.");
+  const handleDelete = useCallback(
+    async (movie) => {
+      const originalMovies = [...movies];
+      setMovies(movies.filter((m) => m._id !== movie._id));
+      try {
+        await deleteMovie(movie._id);
+      } catch (err) {
+        console.log(err.response);
+        if (err.response && err.response.status === 404) {
+          toast.error("This movie has already been deleted.");
+        }
+        setMovies(originalMovies);
       }
+    },
+    [movies]
+  );
+
+  const handleLike = useCallback(
+    (movie) => {
+      const originalMovies = [...movies];
+      const index = originalMovies.indexOf(movie);
+
+      // originalMovies[index] = { ...originalMovies[index] };
+      originalMovies[index].liked = !originalMovies[index].liked;
+
       setMovies(originalMovies);
-    }
-  }
+    },
+    [movies]
+  );
 
-  const handleLike = (movie) => {
-    const originalMovies = [...movies];
-    const index = originalMovies.indexOf(movie);
-
-    // originalMovies[index] = { ...originalMovies[index] };
-    originalMovies[index].liked = !originalMovies[index].liked;
-
-    setMovies(originalMovies);
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = useCallback(
+    (page) => {
+      setCurrentPage(page);
+    },
+    [currentPage]
+  );
 
   // sorting movies
-  const handleSort = (sortColumn) => {
-    setSortColumn(sortColumn);
-    const sorted = _.orderBy(movies, [sortColumn.path], [sortColumn.order]);
-    setMovies(sorted);
-  };
+  const handleSort = useCallback(
+    (sortColumn) => {
+      setSortColumn(sortColumn);
+      const sorted = _.orderBy(movies, [sortColumn.path], [sortColumn.order]);
+      setMovies(sorted);
+    },
+    [sortColumn, movies]
+  );
 
-  const handleGenreSelect = (genre) => {
-    setSelectedGenre(genre);
-    setSearchQuery("");
-    setCurrentPage(1);
-  };
+  const handleGenreSelect = useCallback(
+    (genre) => {
+      setSelectedGenre(genre);
+      setSearchQuery("");
+      setCurrentPage(1);
+    },
+    [selectedGenre]
+  );
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    setSelectedGenre(null);
-    setCurrentPage(1);
-  };
+  const handleSearch = useCallback(
+    (query) => {
+      setSearchQuery(query);
+      setSelectedGenre(null);
+      setCurrentPage(1);
+    },
+    [searchQuery]
+  );
 
   if (count === 0) <p>There are no movies in the database.</p>;
 

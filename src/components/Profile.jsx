@@ -23,12 +23,15 @@ const Profile = ({ user }) => {
 
   console.log(userData);
   return (
-    <div>
-      <h2>Profile</h2>
+    <div className="container mt-5">
+      <h2 className="mb-4">Profile</h2>
       {userData ? (
-        <div>
-          <p>Name: {userData.name}</p>
-          <p>Email: {userData.email}</p>
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">User Information</h5>
+            <p className="card-text"><strong>Name:</strong> {userData.name}</p>
+            <p className="card-text"><strong>Email:</strong> {userData.email}</p>
+          </div>
         </div>
       ) : (
         <p>Loading profile...</p>

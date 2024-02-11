@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -54,10 +53,7 @@ const App = () => {
             path="/movies/:id"
             element={<ProtectedRoute Component={MovieForm} />}
           />
-          <Route
-            path="/users"
-            element={<ProtectedRoute Component={Users} />}
-          />
+          <Route path="/users" element={<ProtectedRoute Component={Users} />} />
           <Route
             path="/customers"
             element={<ProtectedRoute Component={Customer} user={user} />}

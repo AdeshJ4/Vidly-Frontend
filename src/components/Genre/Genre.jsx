@@ -17,17 +17,17 @@ const Genre = ({ user }) => {
   const count = genres.length;
 
   // fetch movies and genres
-  async function fetchGenre() {
-    try {
-      //It's extracting the data property from the object returned by getGenres() and renaming it to genreData.
-      const { data: genreData } = await getGenres();
-      setGenres(genreData);
-    } catch (err) {
-      console.log(err.message);
-    }
-  }
 
   useEffect(() => {
+    async function fetchGenre() {
+      try {
+        //It's extracting the data property from the object returned by getGenres() and renaming it to genreData.
+        const { data: genreData } = await getGenres();
+        setGenres(genreData);
+      } catch (err) {
+        toast.error(err.message);
+      }
+    }
     fetchGenre();
   }, []);
 
@@ -38,9 +38,8 @@ const Genre = ({ user }) => {
     try {
       await deleteGenre(genre._id);
     } catch (err) {
-      console.log(err.response);
       if (err.response && err.response.status === 404) {
-        toast.error("This movie has already been deleted.");
+        toast.error(err.message);
       }
       setGenres(originalGenres);
     }
@@ -78,12 +77,11 @@ const Genre = ({ user }) => {
     return { totalCount: filtered.length, data: pagedGenres };
   };
 
-  if (count === 0) return <p>There are no Genres in the database.</p>;
+  if (count === 0) <p>There are no Genres in the database.</p>;
   const { totalCount, data } = getPagedData();
 
   return (
     <div className="row">
-
       <div className="col">
         {user && (
           <Link

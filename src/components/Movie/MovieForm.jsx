@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams, useSubmit } from "react-router-dom";
 import { getGenres } from "../../services/genreService";
 import { getMovie, saveMovie } from "../../services/movieService";
+import { toast } from "react-toastify";
 
 const MovieForm = () => {
   const [data, setData] = useState({
@@ -18,8 +19,12 @@ const MovieForm = () => {
   const { handleSubmit, register, getValues } = useForm();
 
   const populateGenres = async () => {
-    const { data: genresData } = await getGenres();
-    setGenres(genresData);
+    try {
+      const { data: genresData } = await getGenres();
+      setGenres(genresData);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   const populateMovie = async () => {
@@ -28,8 +33,11 @@ const MovieForm = () => {
     try {
       const { data: movie } = await getMovie(movieId);
       setData(mapToViewModel(movie));
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404) navigate("*");
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        toast.error(err.message);
+        navigate("*");
+      }
     }
   };
 
@@ -53,12 +61,18 @@ const MovieForm = () => {
   }, [id]);
 
   const submitMovie = async (id, submittedData) => {
-    if (id === "new") {
-      await saveMovie(submittedData);
-    } else {
-      await saveMovie({ _id: id, ...submittedData });
+    try {
+      if (id === "new") {
+        await saveMovie(submittedData);
+        toast.success("New Movie Added");
+      } else {
+        await saveMovie({ _id: id, ...submittedData });
+        toast.success("Movie Edited Successfully");
+      }
+      navigate("/movies");
+    } catch (err) {
+      toast.error(err.message);
     }
-    navigate("/movies");
   };
 
   const onSubmit = (submittedData) => {

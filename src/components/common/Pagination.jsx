@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { memo } from "react";
 
 const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   const pagesCount = Math.ceil(itemsCount / pageSize);
@@ -47,4 +48,4 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   );
 };
 
-export default Pagination;
+export default memo(Pagination);

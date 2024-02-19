@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const Like = props => {
   let classes = "fa fa-heart";
@@ -12,4 +12,4 @@ const Like = props => {
   );
 };
 
-export default Like;
+export default memo(Like);

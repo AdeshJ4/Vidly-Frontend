@@ -2,6 +2,7 @@ import auth from "../../services/authService";
 import { Link } from "react-router-dom";
 import Table from "../common/Table";
 import _ from "lodash";
+import { memo } from "react";
 
 const GenresTable = ({ genres, sortColumn, onSort, onDelete }) => {
   // column fields
@@ -39,4 +40,4 @@ const GenresTable = ({ genres, sortColumn, onSort, onDelete }) => {
   );
 };
 
-export default GenresTable;
+export default memo(GenresTable);

@@ -6,18 +6,17 @@ import { toast } from "react-toastify";
 const Profile = ({ user }) => {
   const [userData, setUserData] = useState(null);
 
-  const fetchUser = async () => {
-    try {
-      let { data } = await getUser(user._id);
-      setUserData(data);
-    } catch (err) {
-      console.log(err.message);
-      toast.error("Failed to fetch User.");
-    }
-  };
-
+  
   useEffect(() => {
-    console.log("I am Inside UseEffect");
+    const fetchUser = async () => {
+      try {
+        let { data } = await getUser(user._id);
+        setUserData(data);
+      } catch (err) {
+        console.log(err.message);
+        toast.error("Failed to fetch User.");
+      }
+    };
     fetchUser();
   }, []);
 

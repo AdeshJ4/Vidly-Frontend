@@ -3,7 +3,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "font-awesome/css/font-awesome.css";
 import auth from "../services/authService";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
@@ -37,7 +36,6 @@ const schema = z.object({
 });
 
 const LoginForm = () => {
-  const navigate = useNavigate();
 
   const {
     register,

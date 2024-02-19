@@ -11,6 +11,7 @@ const TableBody = ({ columns, data }) => {
   const createKey = (item, column) => {
     return item.id + (column.path || column.key);
   };
+
   return (
     <tbody>
       {data &&

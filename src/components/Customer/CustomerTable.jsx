@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import auth from "../../services/authService";
 import { Link } from "react-router-dom";
 import Like from "../common/Like";
@@ -49,4 +49,4 @@ const CustomerTable = ({ customers, sortColumn, onSort, onDelete }) => {
   );
 };
 
-export default CustomerTable;
+export default memo(CustomerTable);

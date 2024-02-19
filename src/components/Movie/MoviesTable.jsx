@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import auth from "../../services/authService";
 import { Link } from "react-router-dom";
 import Like from "../common/Like";
@@ -54,4 +54,4 @@ const MoviesTable = ({ movies, sortColumn, onSort, onLike, onDelete }) => {
   );
 };
 
-export default MoviesTable;
+export default memo(MoviesTable);

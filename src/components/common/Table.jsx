@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 
@@ -24,4 +24,4 @@ const Table = ({ columns, data, sortColumn, onSort }) => {
   );
 };
 
-export default Table;
+export default memo(Table);

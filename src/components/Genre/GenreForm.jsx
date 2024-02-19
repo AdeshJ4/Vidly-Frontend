@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { getGenre, saveGenre } from "../../services/genreService";
+import { toast } from "react-toastify";
 
 const GenreForm = () => {
   const [data, setData] = useState({
@@ -36,16 +37,21 @@ const GenreForm = () => {
   }, [id]);
 
   const submitGenre = async (id, submittedData) => {
-    if (id === "new") {
-      await saveGenre(submittedData);
-    } else {
-      await saveGenre({ _id: id, ...submittedData });
+    try {
+      if (id === "new") {
+        await saveGenre(submittedData);
+        toast.success('New Genre Added');
+      } else {
+        await saveGenre({ _id: id, ...submittedData });
+        toast.success('Genre Edited Successfully');
+      }
+      navigate("/genres");
+    } catch (err) {
+      toast.error(err.message);
     }
-    navigate("/genres");
   };
 
   const onSubmit = (submittedData) => {
-    console.log(submittedData);
     submitGenre(id, submittedData);
   };
 

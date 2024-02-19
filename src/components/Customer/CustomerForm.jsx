@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams, useSubmit } from "react-router-dom";
 import { getCustomer, saveCustomer } from "../../services/customerService";
+import { toast } from "react-toastify";
 
 const CustomerForm = () => {
   const [data, setData] = useState({
@@ -15,16 +16,7 @@ const CustomerForm = () => {
 
   const { handleSubmit, register } = useForm();
 
-  const populateCustomer = async () => {
-    const customerId = id;
-    if (customerId === "new") return;
-    try {
-      const { data: customer } = await getCustomer(customerId);
-      setData(mapToViewModel(customer));
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404) navigate("*");
-    }
-  };
+
 
   const mapToViewModel = (customer) => {
     return {
@@ -37,16 +29,35 @@ const CustomerForm = () => {
   };
 
   useEffect(() => {
+    const populateCustomer = async () => {
+      const customerId = id;
+      if (customerId === "new") return;
+      try {
+        const { data: customer } = await getCustomer(customerId);
+        setData(mapToViewModel(customer));
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          toast.error(err.message);
+          navigate("*");
+        }
+      }
+    };
     populateCustomer();
   }, [id]);
 
   const submitCustomer = async (id, submittedData) => {
-    if (id === "new") {
-      await saveCustomer(submittedData);
-    } else {
-      await saveCustomer({ _id: id, ...submittedData });
+    try{
+      if (id === "new") {
+        await saveCustomer(submittedData);
+        toast.success('New Customer Added')
+      } else {
+        await saveCustomer({ _id: id, ...submittedData });
+        toast.success('Customer Edited Successfully')
+      }
+      navigate("/customers");
+    }catch(err){
+      toast.error(err.message);
     }
-    navigate("/customers");
   };
 
   const onSubmit = (submittedData) => {

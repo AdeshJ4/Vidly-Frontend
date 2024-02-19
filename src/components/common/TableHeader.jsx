@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const TableHeader = ({ columns, sortColumn, onSort }) => {
   const raiseSort = (path) => {
@@ -38,4 +38,4 @@ const TableHeader = ({ columns, sortColumn, onSort }) => {
   );
 };
 
-export default TableHeader;
+export default memo(TableHeader);

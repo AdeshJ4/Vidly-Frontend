@@ -15,38 +15,34 @@ const Rental = ({ user }) => {
   const [sortColumn, setSortColumn] = useState({ path: "_id", order: "asc" });
   const [count, setTotalCount] = useState();
 
-  const fetchRentalsData = async () => {
-    try {
-      let rentalsData;
-      if (searchQuery) {
-        if (searchQuery.length >= 24) {
-          rentalsData = await getRental(searchQuery);
-        } else {
-          setRentals([]);
-          setTotalCount(0);
-          return; // Exit the function early to prevent further execution
-        }
-      } else {
-        rentalsData = await getRentals(currentPage);
-      }
   
-      console.log(rentalsData);
-      console.log("count: ", rentalsData.data.count);
-      console.log("rental: ", rentalsData.data.rentals);
-      const sorted = _.orderBy(
-        rentalsData.data.rentals,
-        [sortColumn.path],
-        [sortColumn.order]
-      );
-      setRentals(sorted);
-      setTotalCount(rentalsData.data.count);
-    } catch (err) {
-      console.log(err);
-      toast.error(err.response.data);
-    }
-  };
-
   useEffect(() => {
+    const fetchRentalsData = async () => {
+      try {
+        let rentalsData;
+        if (searchQuery) {
+          if (searchQuery.length >= 24) {
+            rentalsData = await getRental(searchQuery);
+          } else {
+            setRentals([]);
+            setTotalCount(0);
+            return; // Exit the function early to prevent further execution
+          }
+        } else {
+          rentalsData = await getRentals(currentPage);
+        }
+    
+        const sorted = _.orderBy(
+          rentalsData.data.rentals,
+          [sortColumn.path],
+          [sortColumn.order]
+        );
+        setRentals(sorted);
+        setTotalCount(rentalsData.data.count);
+      } catch (err) {
+        toast.error(err.response.data);
+      }
+    };
     fetchRentalsData();
   }, [currentPage, searchQuery]);
 

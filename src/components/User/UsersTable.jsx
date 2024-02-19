@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import auth from "../../services/authService";
 import _ from "lodash";
 import Table from "../common/Table";
@@ -39,4 +39,4 @@ const UsersTable = ({ users, sortColumn, onSort, onDelete }) => {
   );
 };
 
-export default UsersTable;
+export default memo(UsersTable);

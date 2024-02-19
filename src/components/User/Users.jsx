@@ -9,7 +9,6 @@ import {
   getUsersBySearchQuery,
 } from "../../services/userService";
 import UsersTable from "./UsersTable";
-import { useNavigate, useParams, useSubmit } from "react-router-dom";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -19,29 +18,26 @@ const Users = () => {
   const [sortColumn, setSortColumn] = useState({ path: "name", order: "asc" }); // movie name is title
   const [count, setTotalCount] = useState();
 
-  const fetchUsersData = async () => {
-    try {
-      let usersData;
-      if (searchQuery) {
-        usersData = await getUsersBySearchQuery(searchQuery, currentPage);
-      } else {
-        usersData = await getUsers(currentPage);
-      }
-      const sorted = _.orderBy(
-        usersData.data.users,
-        [sortColumn.path],
-        [sortColumn.order]
-      );
-      setUsers(sorted);
-      setTotalCount(usersData.data.count);
-    } catch (err) {
-      console.log(err.message);
-      toast.error("Failed to fetch Users.");
-    }
-  };
-
   useEffect(() => {
-    console.log('I am Inside UseEffect');
+    const fetchUsersData = async () => {
+      try {
+        let usersData;
+        if (searchQuery) {
+          usersData = await getUsersBySearchQuery(searchQuery, currentPage);
+        } else {
+          usersData = await getUsers(currentPage);
+        }
+        const sorted = _.orderBy(
+          usersData.data.users,
+          [sortColumn.path],
+          [sortColumn.order]
+        );
+        setUsers(sorted);
+        setTotalCount(usersData.data.count);
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
     fetchUsersData();
   }, [currentPage, searchQuery]);
 

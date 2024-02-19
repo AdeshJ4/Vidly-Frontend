@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { saveRental } from "../../services/rentalService";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const RentalForm = () => {
   const [selectedMovies, setSelectedMovies] = useState([]);
@@ -23,9 +24,13 @@ const RentalForm = () => {
 
   const onSubmit = async (submittedData) => {
     const { movies, ...filteredRentalData } = submittedData;
-    console.log({ ...filteredRentalData, movies: selectedMovies });
-    await saveRental({ ...filteredRentalData, movies: selectedMovies });
-    navigate("/rentals");
+    try {
+      await saveRental({ ...filteredRentalData, movies: selectedMovies });
+      toast.success("New Rental Added");
+      navigate("/rentals");
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Table from "../common/Table";
 
 const RentalTable = ({ rentals, sortColumn, onSort }) => {
@@ -23,4 +24,4 @@ const RentalTable = ({ rentals, sortColumn, onSort }) => {
   );
 };
 
-export default RentalTable;
+export default memo(RentalTable);

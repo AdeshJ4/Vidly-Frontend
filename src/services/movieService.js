@@ -3,57 +3,69 @@ import { apiUrl } from "../config/config.json";
 
 const apiEndpoint = apiUrl + "/movies";
 
-// /api/movies/65c1e2bdc56595645b7d6fce
-function movieUrl(id) {
-  return `${apiEndpoint}/${id}`;
-}
-
-// /api/movies?pageNumber=1
-function moviePage(page) {
-  return `${apiEndpoint}?pageNumber=${page}`;
-}
-
 // Get All Movies
+// /api/movies?pageNumber=1
 export async function getMovies(currentPage) {
-  return await http.get(moviePage(currentPage));
+  try {
+    return await http.get(`${apiEndpoint}?pageNumber=${currentPage}`);
+  } catch (err) {
+    throw err;
+  }
 }
 
-// api/movies/search/movieName?pageNumber=1
-function movieSearch(query, pageNumber) {
-  return `${apiEndpoint}/search/${query}?pageNumber=${pageNumber}`;
-}
 // get Movies based on search
+// api/movies/search/movieName?pageNumber=1
 export const getMoviesBySearchQuery = async (query, pageNumber) => {
-  return await http.get(movieSearch(query, pageNumber));
+  try {
+    return await http.get(
+      `${apiEndpoint}/search/${query}?pageNumber=${pageNumber}`
+    );
+  } catch (err) {
+    throw err;
+  }
 };
 
-// api/movies/genre/Action?pageNumber=1
-function movieGenre(genre, pageNumber) {
-  return `${apiEndpoint}/genre/${genre.name}?pageNumber=${pageNumber}`;
-}
-
 // Get Movies based on genre
-export async function getMoviesByGenre(pageNumber, genre) {
-  return await http.get(movieGenre(pageNumber, genre));
+// api/movies/genre/Action?pageNumber=1
+export async function getMoviesByGenre(genre, pageNumber) {
+  try {
+    return await http.get(
+      `${apiEndpoint}/genre/${genre.name}?pageNumber=${pageNumber}`
+    );
+  } catch (err) {
+    throw err;
+  }
 }
 
 // Get Single Movie
 export async function getMovie(movieId) {
-  return await http.get(movieUrl(movieId));
+  try {
+    return await http.get(`${apiEndpoint}/${movieId}`);
+  } catch (err) {
+    throw err;
+  }
 }
 
 // Create or Update Movie
 export async function saveMovie(movie) {
-  if (movie._id) {
-    const body = { ...movie };
-    delete body._id; // delete _id property
-    return await http.put(movieUrl(movie._id), body);
-  }
+  try {
+    if (movie._id) {
+      const body = { ...movie };
+      delete body._id; // delete _id property
+      return await http.put(`${apiEndpoint}/${movie._id}`, body);
+    }
 
-  return await http.post(apiEndpoint, movie);
+    return await http.post(apiEndpoint, movie);
+  } catch (err) {
+    throw err;
+  }
 }
 
 // Delete Movie
 export async function deleteMovie(movieId) {
-  return await http.delete(movieUrl(movieId));
+  try {
+    return await http.delete(`${apiEndpoint}/${movieId}`);
+  } catch (err) {
+    throw err;
+  }
 }

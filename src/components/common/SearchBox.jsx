@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const SearchBox = ({ value, onChange }) => {
   return (
@@ -13,4 +13,4 @@ const SearchBox = ({ value, onChange }) => {
   );
 };
 
-export default SearchBox;
+export default memo(SearchBox);

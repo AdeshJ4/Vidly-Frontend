@@ -28,73 +28,92 @@ const Customer = ({ user }) => {
   const [count, setTotalCount] = useState();
   const [selectedMembership, setSelectedMembership] = useState(null);
 
-  const fetchCustomers = async () => {
-    try {
-      let customersData;
-      if (searchQuery) {
-        customersData = await getCustomersBySearchQuery(
-          searchQuery,
-          currentPage
-        );
-      } else if (selectedMembership) {
-        customersData = await getCustomersByMemberships(
-          selectedMembership,
-          currentPage
-        );
-      } else {
-        customersData = await getCustomers(currentPage);
-      }
-      const sorted = _.orderBy(
-        customersData.data.customers,
-        [sortColumn.path],
-        [sortColumn.order]
-      );
-      setCustomers(sorted);
-      setTotalCount(customersData.data.count);
-    } catch (err) {
-      toast.error("Failed to fetch customers.");
-    }
-  };
   useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        let customersData;
+        if (searchQuery) {
+          customersData = await getCustomersBySearchQuery(
+            searchQuery,
+            currentPage
+          );
+        } else if (selectedMembership) {
+          customersData = await getCustomersByMemberships(
+            selectedMembership,
+            currentPage
+          );
+        } else {
+          customersData = await getCustomers(currentPage);
+        }
+        const sorted = _.orderBy(
+          customersData.data.customers,
+          [sortColumn.path],
+          [sortColumn.order]
+        );
+        setCustomers(sorted);
+        setTotalCount(customersData.data.count);
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
     fetchCustomers();
   }, [currentPage, searchQuery, selectedMembership]);
 
   // delete customers
-  const handleDelete = useCallback(async (customer) => {
-    const originalCustomers = [...customers];
-    try {
-      setCustomers(customers.filter((c) => c._id !== customer._id));
-      await deleteCustomer(customer._id);
-    } catch (err) {
-      console.log(err.response);
-      if (err.response && err.response.status === 404) {
-        toast.error("This customer has already been deleted.");
+  const handleDelete = useCallback(
+    async (customer) => {
+      const originalCustomers = [...customers];
+      try {
+        setCustomers(customers.filter((c) => c._id !== customer._id));
+        await deleteCustomer(customer._id);
+      } catch (err) {
+        console.log(err.response);
+        if (err.response && err.response.status === 404) {
+          toast.error("This customer has already been deleted.");
+        }
+        setCustomers(originalCustomers);
       }
-      setCustomers(originalCustomers);
-    }
-  }, [customers]);
+    },
+    [customers]
+  );
 
   // you will get page no from Pagination and according to that you have to fetch customers
-  const handlePageChange = useCallback((page) => {
-    setCurrentPage(page);
-  }, [currentPage]);
+  const handlePageChange = useCallback(
+    (page) => {
+      setCurrentPage(page);
+    },
+    [currentPage]
+  );
 
-  const handleSearch = useCallback((query) => {
-    setSearchQuery(query);
-    setCurrentPage(1);
-  }, [searchQuery]);
+  const handleSearch = useCallback(
+    (query) => {
+      setSearchQuery(query);
+      setCurrentPage(1);
+    },
+    [searchQuery]
+  );
 
-  const handleSort = useCallback((sortColumn) => {
-    setSortColumn(sortColumn);
-    const sorted = _.orderBy(customers, [sortColumn.path], [sortColumn.order]);
-    setCustomers(sorted);
-  }, [sortColumn, customers]);
+  const handleSort = useCallback(
+    (sortColumn) => {
+      setSortColumn(sortColumn);
+      const sorted = _.orderBy(
+        customers,
+        [sortColumn.path],
+        [sortColumn.order]
+      );
+      setCustomers(sorted);
+    },
+    [sortColumn, customers]
+  );
 
-  const handleMembershipSelect = useCallback((membership) => {
-    setSelectedMembership(membership);
-    setSearchQuery("");
-    setCurrentPage(1);
-  }, [selectedMembership]);
+  const handleMembershipSelect = useCallback(
+    (membership) => {
+      setSelectedMembership(membership);
+      setSearchQuery("");
+      setCurrentPage(1);
+    },
+    [selectedMembership]
+  );
 
   if (count === 0) <p>There are no customers in the database.</p>;
 
@@ -131,9 +150,9 @@ const Customer = ({ user }) => {
         />
         <Pagination
           itemsCount={count}
-          pageSize={pageSize} 
-          currentPage={currentPage} 
-          onPageChange={handlePageChange} 
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
         />
       </div>
     </div>

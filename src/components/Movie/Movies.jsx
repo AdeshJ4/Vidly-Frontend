@@ -24,30 +24,7 @@ const Movies = ({ user }) => {
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" }); // movie name is title
   const [count, setTotalCount] = useState();
 
-  const fetchMoviesData = async () => {
-    try {
-      let moviesData;
-      if (searchQuery) {
-        moviesData = await getMoviesBySearchQuery(searchQuery, currentPage);
-      } else if (selectedGenre) {
-        moviesData = await getMoviesByGenre(selectedGenre, currentPage);
-      } else {
-        moviesData = await getMovies(currentPage);
-      }
-      // fetch genres
-      await fetchGenres();
-      const sorted = _.orderBy(
-        moviesData.data.movies,
-        [sortColumn.path],
-        [sortColumn.order]
-      );
-      setMovies(sorted);
-      setTotalCount(moviesData.data.count);
-    } catch (err) {
-      console.log(err.message);
-      toast.error("Failed to fetch movies/Genres.");
-    }
-  };
+
 
   const fetchGenres = async () => {
     try {
@@ -56,14 +33,36 @@ const Movies = ({ user }) => {
         setGenres(data);
       }
     } catch (err) {
-      toast.error("Failed to fetch genres.");
+      toast.error(err.message);
     }
   };
 
   useEffect(() => {
+    const fetchMoviesData = async () => {
+      try {
+        let moviesData;
+        if (searchQuery) {
+          moviesData = await getMoviesBySearchQuery(searchQuery, currentPage);
+        } else if (selectedGenre) {
+          moviesData = await getMoviesByGenre(selectedGenre, currentPage);
+        } else {
+          moviesData = await getMovies(currentPage);
+        }
+        // fetch genres
+        await fetchGenres();
+        const sorted = _.orderBy(
+          moviesData.data.movies,
+          [sortColumn.path],
+          [sortColumn.order]
+        );
+        setMovies(sorted);
+        setTotalCount(moviesData.data.count);
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
     fetchMoviesData();
   }, [currentPage, searchQuery, selectedGenre]);
-
 
   // delete movies
   const handleDelete = useCallback(
@@ -75,7 +74,7 @@ const Movies = ({ user }) => {
       } catch (err) {
         console.log(err.response);
         if (err.response && err.response.status === 404) {
-          toast.error("This movie has already been deleted.");
+          toast.error(err.message);
         }
         setMovies(originalMovies);
       }

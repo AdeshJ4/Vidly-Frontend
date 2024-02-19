@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import auth from "../../services/authService";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 
 const ProtectedRoute = ({ Component, user }) => {
   const navigate = useNavigate();
@@ -14,4 +14,4 @@ const ProtectedRoute = ({ Component, user }) => {
   return <Component user={user} />;
 };
 
-export default ProtectedRoute;
+export default memo(ProtectedRoute);

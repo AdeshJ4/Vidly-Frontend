@@ -5,7 +5,6 @@ handling unexpected errors, logging, and managing authentication tokens
 */
 
 import axios from "axios";
-import logger from "./logService";
 import { toast } from "react-toastify";
 
 /*
@@ -14,20 +13,21 @@ This code sets up an interceptor for Axios responses.
 Interceptors are functions that Axios runs for every request and response. 
 In this case, it's handling responses.
 */
-axios.interceptors.response.use(null, error => {
+axios.interceptors.response.use(null, (error) => {
   /*
   If there's an error response and it's not in the expected 4xx range (client errors), it logs the error using logger and displays 
   an error toast using toast.
   if server return 500 error then display error message
   */
+  //  400, 401, 403
   const expectedError =
     error.response &&
     error.response.status >= 400 &&
     error.response.status < 500;
 
   if (!expectedError) {
-    logger.log(error);
-    toast.error("An unexpected error occurred.");
+    toast.error(error.message);
+    // toast.error("An unexpected error occurred.");
   }
 
   /*
@@ -53,9 +53,8 @@ export default {
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
-  setJwt
+  setJwt,
 };
-
 
 /*
 Q1]  explain concept "Axios Interceptor" and why we need this?

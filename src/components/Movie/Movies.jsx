@@ -24,8 +24,6 @@ const Movies = ({ user }) => {
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" }); // movie name is title
   const [count, setTotalCount] = useState();
 
-
-
   const fetchGenres = async () => {
     try {
       if (genres.length === 0) {
